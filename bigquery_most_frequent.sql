@@ -1,4 +1,4 @@
-create function schema_name.rolling_most_frequent(arr ANY TYPE) as
+create function schema_name.rolling_most_frequent(arr ARRAY<STRING>) as
     (
         (
   SELECT y_arr
