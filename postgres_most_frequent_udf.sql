@@ -1,4 +1,5 @@
-CREATE FUNCTION _most_frequent(arr varchar[]) RETURNS varchar AS
+CREATE FUNCTION rolling_most_frequent(arr varchar[])
+    RETURNS varchar AS
 $BODY$
 DECLARE
     mode varchar;
@@ -13,7 +14,9 @@ BEGIN
         IF temp_counter is NULL THEN
           temp_counter:=0;
         END IF;
+{% raw %}
         numMapping :=  jsonb_set(numMapping, format('{%s}', key_attr)::text[], (temp_counter+1)::text::jsonb);
+{% endraw %}
         IF (numMapping->>key_attr)::int >= greatest_freq THEN
             greatest_freq := (numMapping->>key_attr)::int;
             mode := arr[i];
@@ -24,10 +27,3 @@ BEGIN
 END;
 $BODY$
 LANGUAGE plpgsql;
-
-CREATE AGGREGATE rolling_most_frequent(varchar) (
-    SFUNC = array_append,
-    STYPE = varchar[],
-    FINALFUNC =_most_frequent,
-    INITCOND = '{}'
-    );
