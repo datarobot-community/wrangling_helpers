@@ -1,4 +1,4 @@
-CREATE FUNCTION _final_median(anyarray)
+CREATE FUNCTION rolling_median(arr numeric[])
     RETURNS float8 AS
 $$
   WITH q AS
@@ -21,10 +21,3 @@ $$
   ) q2;
 $$
     LANGUAGE 'sql' IMMUTABLE;
-
-CREATE AGGREGATE rolling_median(anyelement) (
-    SFUNC=array_append,
-    STYPE=anyarray,
-    FINALFUNC=_final_median,
-    INITCOND='{}'
-    );
