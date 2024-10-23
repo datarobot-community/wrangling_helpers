@@ -1,4 +1,4 @@
-create function schema_name.rolling_median(arr ARRAY<NUMERIC>) as
+create function schema_name.rolling_median(arr ANY TYPE) as
     (
         (
   SELECT
