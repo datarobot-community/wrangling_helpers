@@ -1,4 +1,4 @@
-CREATE FUNCTION rolling_median(arr numeric[])
+CREATE FUNCTION rolling_median(anyarray)
     RETURNS float8 AS
 $$
   WITH q AS
